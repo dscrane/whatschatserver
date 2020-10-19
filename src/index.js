@@ -20,9 +20,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(userRouter);
 app.use(chatRoomRouter);
 app.use(messageRouter);
-// app.get('chats/:id', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
-// })
+
 
 server.listen(PORT, () => console.log('App listening on port:' + PORT))
 
