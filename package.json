@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./src/index.js",
     "deploy": "git add * && git commit -m updates && git push heroku master"
   },
   "keywords": [],
