@@ -3,6 +3,10 @@ const http = require('http');
 const path = require('path');
 const express = require('express');
 const socketio = require('socket.io');
+const userRouter = require('./routes/userRoutes');
+const chatRoomRouter = require('./routes/chatRoomRoutes');
+const messageRouter = require('./routes/messageRoutes');
+
 
 const PORT = process.env.PORT || 5500;
 
@@ -13,6 +17,9 @@ console.log(process.env.NODE_ENV)
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+app.use(userRouter);
+app.use(chatRoomRouter);
+app.use(messageRouter);
 // app.get('chats/:id', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
 // })
