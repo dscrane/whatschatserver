@@ -17,11 +17,11 @@ const io = socketio(server)
 console.log(process.env.NODE_ENV)
 
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(bodyParser.json())
 
 app.use(userRouter);
 app.use(chatRoomRouter);
 app.use(messageRouter);
- app.use(bodyParser.json())
 
 server.listen(PORT, () => console.log('App listening on port:' + PORT))
 
