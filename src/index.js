@@ -6,6 +6,7 @@ const socketio = require('socket.io');
 const userRouter = require('./routes/userRoutes');
 const chatRoomRouter = require('./routes/chatRoomRoutes');
 const messageRouter = require('./routes/messageRoutes');
+const bodyParser = require('body-parser')
 
 
 const PORT = process.env.PORT || 5500;
@@ -20,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(userRouter);
 app.use(chatRoomRouter);
 app.use(messageRouter);
-
+ app.use(bodyParser.json())
 
 server.listen(PORT, () => console.log('App listening on port:' + PORT))
 
