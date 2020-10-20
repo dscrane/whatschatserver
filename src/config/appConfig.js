@@ -1,15 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const cors = require('cors');
 
 const userController = require('./controllers/users');
 const chatroomController = require('./controllers/chatrooms');
 const messageController = require('./controllers/messages');
 
-const appConfig = express();
+const app = express();
 
-appConfig.use(express.static(path.join(__dirname, 'client/build')));
-appConfig.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'client/build')));
 
-appConfig.use(userController);
-appConfig.use(chatroomController);
-appConfig.use(messageController);
+app.use(bodyParser.json())
+app.use(cors())
+
+app.use(userController);
+app.use(chatroomController);
+app.use(messageController);
