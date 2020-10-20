@@ -36,9 +36,9 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: "*",
     scriptSrc: ["*", "'unsafe-inline'"],
-    reportUri: "/my_amazing_csp_report_parser"
+    // reportUri: "/my_amazing_csp_report_parser"
   },
-  reportOnly: true
+  // reportOnly: true
 }))
 /* ----   ****    ---- */
 
