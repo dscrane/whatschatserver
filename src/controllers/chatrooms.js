@@ -1,5 +1,5 @@
 const express = require('express');
-const { ChatRoom } = require('../models/chatroom')
+const { Chatroom } = require('../models/chatroom')
 const Message = require('../models/message')
 
 const router = express.Router();
@@ -7,7 +7,12 @@ const router = express.Router();
 
 router.get('/chatrooms/fetch', async (req, res) => {
   console.info('rooms/fetch hit')
-  res.send('rooms/fetch hit')
+  try {
+    const chats = await Chatroom.find().limit(8);
+    res.send({ chats })
+  } catch(e) {
+    console.log(e)
+  }
 })
 
 router.post('/chatrooms/create', async (req, res) => {
