@@ -4,7 +4,7 @@ const authenticate = require('../middleware/authenticate')
 
 const router = new express.Router();
 
-router.post('/create-user', async (req, res) => {
+router.post('users/new', async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
@@ -16,7 +16,7 @@ router.post('/create-user', async (req, res) => {
   }
 })
 
-router.post('/login-user', async (req, res) => {
+router.post('users/login', async (req, res) => {
   console.log(req.body)
   try {
     const user = await User.findByCredentials(req.body.username, req.body.password);
@@ -28,7 +28,19 @@ router.post('/login-user', async (req, res) => {
   }
 });
 
-router.patch('/user-update', authenticate, async (req, res) => {
+router.post('users/logout', authenticate, async (req, res) => {
+  try {
+    req.user;
+    req.user.tokens = [];
+    await req.user.save();
+
+    res.send({logout: true});
+  } catch (e) {
+    res.send({logout: false})
+  }
+})
+
+router.patch('users/update', authenticate, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ['name', 'email', 'password'];
 
@@ -47,15 +59,15 @@ router.patch('/user-update', authenticate, async (req, res) => {
   }
 })
 
-router.get('/user-id', authenticate, (req, res) => {
+router.get('users/id', authenticate, (req, res) => {
   res.send(req.user)
 })
 
-router.get('/user', authenticate, (req, res) => {
-  res.send({user: req.user})
-})
+// router.get('/user', authenticate, (req, res) => {
+//   res.send({user: req.user})
+// })
 
-router.post('/user-delete', authenticate, async (req, res) => {
+router.post('users/delete', authenticate, async (req, res) => {
   try {
     await req.user.remove();
     res.send({ userDeleted: true })
@@ -64,17 +76,7 @@ router.post('/user-delete', authenticate, async (req, res) => {
   }
 })
 
-router.post('/logout', authenticate, async (req, res) => {
-  try {
-    req.user;
-    req.user.tokens = [];
-    await req.user.save();
 
-    res.send({logout: true});
-  } catch (e) {
-    res.send({logout: false})
-  }
-})
 
 
 module.exports = router;

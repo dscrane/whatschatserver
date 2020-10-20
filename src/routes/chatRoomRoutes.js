@@ -5,7 +5,7 @@ const Message = require('../models/message')
 const router = express.Router();
 
 
-router.get('/chats', async (req, res) => {
+router.get('rooms/fetch', async (req, res) => {
   try {
     const chats = await ChatRoom.find().limit(8);
     res.send({ chats });
@@ -14,7 +14,7 @@ router.get('/chats', async (req, res) => {
   }
 })
 
-router.post('/create-chatRoom', async (req, res) => {
+router.post('rooms/create', async (req, res) => {
   console.log(req.body)
   const chat = new ChatRoom (req.body);
   try {
@@ -23,6 +23,10 @@ router.post('/create-chatRoom', async (req, res) => {
   } catch (e) {
     console.error(e)
   }
+})
+
+router.post('rooms/delete', (req, res) => {
+  console.log('delete')
 })
 
 
