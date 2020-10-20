@@ -32,7 +32,14 @@ const app = express();
 /* ----   CONNECT MIDDLEWARES    ---- */
 app.use(bodyParser.json())
 app.use(cors())
-app.use(helmet())
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: "*",
+    scriptSrc: ["*", "'unsafe-inline'"],
+    // reportUri: "/my_amazing_csp_report_parser"
+  },
+  // reportOnly: true
+}))
 /* ----   ****    ---- */
 
 /* ----   CONNECT CONTROLLERS    ---- */
