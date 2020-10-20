@@ -2,7 +2,7 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
-const chatRoomSchema = new mongoose.Schema(
+const chatroomSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -17,5 +17,5 @@ const chatRoomSchema = new mongoose.Schema(
   }
 )
 
-const ChatRoom = mongoose.model('ChatRoom', chatRoomSchema);
-module.exports = { ChatRoom, chatRoomSchema };
+const Chatroom = mongoose.model('ChatRoom', chatroomSchema);
+module.exports = { Chatroom, chatroomSchema };

@@ -45,17 +45,7 @@ const userSchema = new mongoose.Schema(
           required: true
         }
       }
-    ],
-    createdRooms: [
-      {
-        type: String
-      }
-    ],
-    favoriteRooms: [
-      {
-      type: String
-      }
-    ],
+    ]
   },
   {
   timestamps: true

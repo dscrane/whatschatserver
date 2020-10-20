@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema(
     author: {
       type: String
     },
-    chatRoomId: {
+    chatroomId: {
       type: String
     },
   },
