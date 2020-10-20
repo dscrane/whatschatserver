@@ -5,6 +5,7 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors');
+const helmet = require('helmet');
 
 const userController = require('./controllers/users');
 const chatroomController = require('./controllers/chatrooms');
@@ -31,6 +32,14 @@ const app = express();
 /* ----   CONNECT MIDDLEWARES    ---- */
 app.use(bodyParser.json())
 app.use(cors())
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: "*",
+    scriptSrc: ["*", "'unsafe-inline'"],
+    reportUri: "/my_amazing_csp_report_parser"
+  },
+  reportOnly: true
+}))
 /* ----   ****    ---- */
 
 /* ----   CONNECT CONTROLLERS    ---- */
