@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/messages/fetch', async (req, res) => {
   console.info('messages/fetch hit')
+  res.send('messages/fetch hit')
 })
 
 module.exports = router;
