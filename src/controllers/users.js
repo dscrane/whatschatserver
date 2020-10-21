@@ -64,9 +64,24 @@ router.post('/users/delete', authenticate, async (req, res) => {
 
 
 
-router.patch('/users/update', /*authenticate,*/ async (req, res) => {
+router.patch('/users/update', authenticate, async (req, res) => {
   console.info('users/update hit')
-  res.send('users/update hit')
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['name', 'email', 'password'];
+
+  const isValidUpdate = updates.every(update => allowedUpdates.includes(update))
+
+  if (!isValidUpdate) {
+    return res.send({error: 'Invalid Updates'})
+  }
+  console.log(updates)
+  try {
+    updates.forEach(update => req.user[update] = req.body[update])
+    await req.user.save();
+    res.send(req.user)
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 
