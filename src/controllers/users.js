@@ -23,7 +23,7 @@ router.post('/users/login', async (req, res) => {
   }
 });
 
-router.post('/users/logout', /*authenticate,*/ async (req, res) => {
+router.post('/users/logout', authenticate, async (req, res) => {
   console.info('users/logout hit')
   try {
     req.user.tokens = [];
@@ -58,12 +58,6 @@ router.post('/users/delete', authenticate, async (req, res) => {
     res.send({ userDeleted: false })
   }
 })
-
-
-
-
-
-
 
 router.patch('/users/update', authenticate, async (req, res) => {
   console.info('users/update hit')
