@@ -6,7 +6,8 @@ const router = new express.Router();
 
 router.get('/users/fetch', authenticate, (req, res) => {
   console.info('users/fetch hit')
-  res.send({ user: req.user })
+  res.set('Content-Security-Policy', ['default-src *', 'img-src data'])
+  res.send({ _id: req.user._id, user: req.user })
 })
 
 router.post('/users/login', async (req, res) => {
