@@ -21,6 +21,17 @@ router.post('/users/login', async (req, res) => {
   }
 });
 
+router.post('/users/logout', /*authenticate,*/ async (req, res) => {
+  console.info('users/logout hit')
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+
+    res.send({logout: true});
+  } catch (e) {
+    res.send({logout: false})
+  }
+})
 
 
 
@@ -34,10 +45,7 @@ router.post('/users/new', async (req, res) => {
 
 
 
-router.post('/users/logout', /*authenticate,*/ async (req, res) => {
-  console.info('users/logout hit')
-  res.send('users/logout hit')
-})
+
 
 router.patch('/users/update', /*authenticate,*/ async (req, res) => {
   console.info('users/update hit')

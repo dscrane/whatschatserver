@@ -17,7 +17,13 @@ router.get('/chatrooms/fetch', async (req, res) => {
 
 router.post('/chatrooms/create', async (req, res) => {
   console.info('rooms/create hit')
-  res.send('rooms/create hit')
+  const chat = new Chatroom(req.body);
+  try {
+    await chat.save()
+    res.send({ chat })
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 router.post('/chatrooms/delete', (req, res) => {
