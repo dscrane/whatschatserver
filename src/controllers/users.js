@@ -12,6 +12,7 @@ router.get('/users/fetch', authenticate, (req, res) => {
 
 router.post('/users/login', async (req, res) => {
   console.info('users/login hit')
+  console.log(req.body)
   try {
     const user = await User.findByCredentials(req.body.username, req.body.password);
     const token = await user.generateAuthToken()
