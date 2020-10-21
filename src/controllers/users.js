@@ -34,15 +34,31 @@ router.post('/users/logout', /*authenticate,*/ async (req, res) => {
   }
 })
 
-
-
-
-
-
-router.post('/users/new', async (req, res) => {
-  console.info('users/new hit')
-  res.send('users/new hit')
+router.post('/users/create', async (req, res) => {
+  console.info('users/create hit')
+  const user = new User(req.body);
+  console.log(user)
+  try {
+    await user.save();
+    const token = await user.generateAuthToken();
+    await user.generateAvatar();
+    res.send({ _id: user._id, user, token })
+  } catch (e) {
+    res.send({ error: e})
+  }
 })
+
+router.post('/users/delete', authenticate, async (req, res) => {
+  console.info('users/delete hit')
+  try {
+    await req.user.remove();
+    res.send({ userDeleted: true })
+  } catch (e) {
+    res.send({ userDeleted: false })
+  }
+})
+
+
 
 
 
@@ -55,9 +71,7 @@ router.patch('/users/update', /*authenticate,*/ async (req, res) => {
 
 
 
-router.post('/users/delete', /*authenticate,*/ async (req, res) => {
-  res.send('users/delete hit')
-})
+
 
 
 
