@@ -13,11 +13,6 @@ const socketConfig = (io) => {
 
     socket.on("leave", ({ room, username }) => {
       socket.leave(room);
-      io.to(room).emit("system-message", {
-        author: "systemManager",
-        message: `${username} has left`,
-        chatroomId: room,
-      });
     });
 
     socket.on("message", async (message) => {
