@@ -5,14 +5,11 @@ const authenticate = require('../middleware/authenticate')
 const router = new express.Router();
 
 router.get('/users/fetch', authenticate, (req, res) => {
-  console.info('users/fetch hit')
   res.set('Content-Security-Policy', ['default-src *', 'img-src data:'])
   res.send({ _id: req.user._id, user: req.user })
 })
 
 router.post('/users/login', async (req, res) => {
-  console.info('users/login hit')
-  console.log(req.body)
   try {
     const user = await User.findByCredentials(req.body.username, req.body.password);
     const token = await user.generateAuthToken()
@@ -24,7 +21,6 @@ router.post('/users/login', async (req, res) => {
 });
 
 router.post('/users/logout', authenticate, async (req, res) => {
-  console.info('users/logout hit')
   try {
     req.user.tokens = [];
     await req.user.save();
@@ -36,9 +32,7 @@ router.post('/users/logout', authenticate, async (req, res) => {
 })
 
 router.post('/users/create', async (req, res) => {
-  console.info('users/create hit')
   const user = new User(req.body);
-  console.log(user)
   try {
     await user.save();
     const token = await user.generateAuthToken();
@@ -50,7 +44,6 @@ router.post('/users/create', async (req, res) => {
 })
 
 router.post('/users/delete', authenticate, async (req, res) => {
-  console.info('users/delete hit')
   try {
     await req.user.remove();
     res.send({ userDeleted: true })
@@ -60,7 +53,6 @@ router.post('/users/delete', authenticate, async (req, res) => {
 })
 
 router.patch('/users/update', authenticate, async (req, res) => {
-  console.info('users/update hit')
   const updates = Object.keys(req.body);
   const allowedUpdates = ['name', 'email', 'password'];
 
@@ -69,7 +61,6 @@ router.patch('/users/update', authenticate, async (req, res) => {
   if (!isValidUpdate) {
     return res.send({error: 'Invalid Updates'})
   }
-  console.log(updates)
   try {
     updates.forEach(update => req.user[update] = req.body[update])
     await req.user.save();
@@ -78,12 +69,6 @@ router.patch('/users/update', authenticate, async (req, res) => {
     console.error(e)
   }
 })
-
-
-
-
-
-
 
 
 module.exports = router;

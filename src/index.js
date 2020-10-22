@@ -3,15 +3,16 @@ require('dotenv').config()
 const path = require('path');
 const http = require('http');
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
+const socketio = require('socket.io');
 
 const userController = require('./controllers/users');
 const chatroomController = require('./controllers/chatrooms');
 const messageController = require('./controllers/messages');
 
-// const socketConfig = require('./config/socketConfig');
+const socketConfig = require('./config/socketConfig');
 /* ----   ****    ---- */
 
 
@@ -23,10 +24,8 @@ const PORT = process.env.PORT || 5500;
 require('./db/db');
 /* ----   ****    ---- */
 
-/* ----   CONNECT EXPRESS AND SOCKET.IO    ---- */
+/* ----   CONNECT EXPRESS   ---- */
 const app = express();
-// const io = socketio(server)
-// socketConfig(io)
 /* ----   ****    ---- */
 
 /* ----   CONNECT MIDDLEWARES    ---- */
@@ -58,6 +57,13 @@ app.get('/*', (req, res) => {
 })
 
 const server = http.createServer(app)
+
+/* ----   CONNECT SOCKET.IO   ---- */
+
+const io = socketio(server)
+socketConfig(io)
+/* ----   ****    ---- */
+
 
 /* ----   SPIN UP THE SERVER    ---- */
 server.listen(PORT, () => console.log('App listening on http://localhost:' + PORT))
