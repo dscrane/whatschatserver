@@ -36,7 +36,7 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: "*",
     scriptSrc: ["*", "'unsafe-inline'"],
-    imgSrc: ["data:"]
+    imgSrc: ["data:", "https://img.icons8.com/color/48/000000/secured-letter.png"]
     // reportUri: "/my_amazing_csp_report_parser"
   },
   // reportOnly: true
