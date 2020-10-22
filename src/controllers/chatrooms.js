@@ -8,8 +8,9 @@ const router = express.Router();
 router.get('/chatrooms/fetch', async (req, res) => {
   console.info('rooms/fetch hit')
   try {
-    const chats = await Chatroom.find().limit(8);
-    res.send({ chats })
+    const chatrooms = await Chatroom.find().limit(8);
+    console.log(chatrooms)
+    res.send({ chatrooms })
   } catch(e) {
     console.log(e)
   }
@@ -17,10 +18,10 @@ router.get('/chatrooms/fetch', async (req, res) => {
 
 router.post('/chatrooms/create', async (req, res) => {
   console.info('rooms/create hit')
-  const chat = new Chatroom(req.body);
+  const chatroom = new Chatroom(req.body);
   try {
-    await chat.save()
-    res.send({ chat })
+    await chatroom.save()
+    res.send({ chatroom })
   } catch (e) {
     console.error(e)
   }

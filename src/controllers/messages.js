@@ -7,6 +7,7 @@ router.get('/messages/fetch?', async (req, res) => {
   console.info('messages/fetch hit')
   try {
     const messages = await Message.find({chatroomId: req.query.chatroomId}).limit(50).sort({createdAt: 1});
+    console.log('messages', messages)
     res.set('Content-Security-Policy', 'default-src *')
     res.send({ chatroomId: req.query.chatroomId, messages: messages });
   } catch (e) {
