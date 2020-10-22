@@ -1,9 +1,9 @@
-require('dotenv').config();
-const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const Identicon = require('identicon.js')
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+require("dotenv").config();
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
+const Identicon = require("identicon.js");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
@@ -36,28 +36,31 @@ const userSchema = new mongoose.Schema(
       // validate
     },
     avatar: {
-      type: String
+      type: String,
     },
     tokens: [
       {
         token: {
           type: String,
-          required: true
-        }
-      }
-    ]
+          required: true,
+        },
+      },
+    ],
   },
   {
-  timestamps: true
+    timestamps: true,
   }
-)
+);
 
 userSchema.methods.generateAvatar = async function () {
   const user = this;
-  const randomHash = crypto.createHash('sha1').update(user._id.toString()).digest('hex')
+  const randomHash = crypto
+    .createHash("sha1")
+    .update(user._id.toString())
+    .digest("hex");
   user.avatar = new Identicon(randomHash, 250).toString();
-  await user.save()
-}
+  await user.save();
+};
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
@@ -65,9 +68,9 @@ userSchema.methods.generateAuthToken = async function () {
   user.tokens = user.tokens.concat({ token });
 
   await user.save();
-  console.log('error here??')
+  console.log("error here??");
   return token;
-}
+};
 
 userSchema.methods.toJSON = function () {
   const user = this;
@@ -77,37 +80,37 @@ userSchema.methods.toJSON = function () {
   delete userObject.tokens;
 
   return userObject;
-}
+};
 
 userSchema.statics.findByCredentials = async (username, password) => {
   function LoginError(message) {
-      this.message = message;
-      this.name = 'Error';
+    this.message = message;
+    this.name = "Error";
   }
 
   const user = await User.findOne({ username });
   if (!user) {
-    throw new LoginError('The username or password is incorrect')
+    throw new LoginError("The username or password is incorrect");
   }
 
   const passwordMatch = await bcrypt.compare(password, user.password);
-   if (!passwordMatch) {
-     throw new LoginError('The username or password is incorrect')
-   }
+  if (!passwordMatch) {
+    throw new LoginError("The username or password is incorrect");
+  }
 
   return user;
-}
+};
 
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function (next) {
   const user = this;
 
-  if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, 8)
+  if (user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 8);
   }
 
   next();
-})
+});
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = { User, userSchema };

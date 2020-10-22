@@ -1,24 +1,24 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+require("dotenv").config();
+const mongoose = require("mongoose");
 
 const messageSchema = new mongoose.Schema(
   {
     message: {
-      type: String
+      type: String,
     },
     userId: {
-      type: String
+      type: String,
     },
     author: {
-      type: String
+      type: String,
     },
     chatroomId: {
-      type: String
+      type: String,
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-module.exports = mongoose.model('Message', messageSchema)
+module.exports = mongoose.model("Message", messageSchema);
