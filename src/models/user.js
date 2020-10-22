@@ -61,9 +61,11 @@ userSchema.methods.generateAvatar = async function () {
 
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
+  console.log('auth token', user)
   const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
   user.tokens = user.tokens.concat({ token });
+  console.log('user tokens', user.tokens)
   await user.save();
   return token;
 }
@@ -94,7 +96,7 @@ userSchema.statics.findByCredentials = async (username, password) => {
    if (!passwordMatch) {
      throw new LoginError('The username or password is incorrect')
    }
-
+  console.log('passwordmatch', passwordMatch)
   return user;
 }
 
