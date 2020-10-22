@@ -13,7 +13,7 @@ const authenticate = async (req, res, next) => {
     console.log(decoded);
     const user = await User.findOne({
       _id: decoded._id,
-      "tokens.token": token,
+      // "tokens.token": token,
     });
 
     console.log(user);
